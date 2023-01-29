@@ -29,6 +29,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [Prettier](https://prettier.io/) (code formatter)
 - [Draw.io](https://draw.io/) (for diagrams)
 - [React Hot Toast](https://react-hot-toast.com/) (toasts)
+- [Zod](https://zod.dev/) (schema validation)
 
 ## Inspiration 🤩
 
