@@ -1,8 +1,8 @@
 import { APIError } from '@/lib/server/error';
 import { createCompletion } from '@/lib/server/openai-client';
 import { generationRequestSchema } from '@/lib/server/schemas';
-import { CreateCompletionParams } from '@/lib/server/types';
-import { createJsonEdgeResponse, generatePromptMsg } from '@/lib/server/utils';
+import { CreateCompletionParams, GenerateRequestParams } from '@/lib/server/types';
+import { createJsonEdgeResponse } from '@/lib/server/edge-utils';
 import type { NextRequest } from 'next/server';
 
 export const config = {
@@ -48,3 +48,14 @@ export default async function handler(req: NextRequest) {
     return createJsonEdgeResponse(error.message, 500);
   }
 }
+
+export const generatePromptMsg = (reqBody: GenerateRequestParams) => {
+  return `Act as a real estate agent and write a ${reqBody.mood} description for a ${
+    reqBody.propertyType
+  } for sale 
+    based on the following context: ${reqBody.description}${
+    reqBody.description.endsWith('.') ? '' : '.'
+  } ${
+    reqBody.targetAudience ? `The target audience is: ${reqBody.targetAudience}.` : ''
+  }`;
+};

@@ -1,5 +1,4 @@
-import { ZodSchema, z } from 'zod';
-import { APIError } from './error';
+import { z } from 'zod';
 
 export const generationRequestSchema = z.object({
   propertyType: z.enum(['apartment', 'house', 'townhouse', 'condo', 'land']),
