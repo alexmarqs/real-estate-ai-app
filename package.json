@@ -1,23 +1,36 @@
 {
-  "name": "habita-web-app",
-  "version": "0.1.0",
+  "name": "real-estate-ai-app",
+  "version": "0.0.0",
+  "description": "Real Estate AI App",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start ",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
-    "@next/font": "13.1.2",
+    "@next/font": "latest",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
+    "axios": "^1.2.6",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
-    "next": "13.1.2",
+    "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.4"
+    "react-hot-toast": "^2.4.0",
+    "typescript": "4.9.4",
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.13",
+    "eslint-config-prettier": "8.6.0",
+    "postcss": "8.4.21",
+    "prettier": "2.8.3",
+    "tailwindcss": "3.2.4"
   }
 }
