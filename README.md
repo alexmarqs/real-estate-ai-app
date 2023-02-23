@@ -15,6 +15,7 @@ This project generates a description of an house using [OpenAI GPT-3 API](https:
 - [Draw.io](https://draw.io/) (for diagrams)
 - [React Hot Toast](https://react-hot-toast.com/) (toasts)
 - [Zod](https://zod.dev/) (schema validation)
+- [React Hook Form](https://react-hook-form.com/) (form management)
 - Multiple Layouts with [Next.js](https://nextjs.org/docs/basic-features/layouts)
 - SEO with [Next.js](https://nextjs.org/docs/api-reference/next/head)
 
