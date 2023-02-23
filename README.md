@@ -6,7 +6,7 @@ This project generates a description of an house using [OpenAI GPT-3 API](https:
 
 - [Next.js](https://nextjs.org/) (React framework)
 - [Tailwind CSS](https://tailwindcss.com/) (utility-first CSS framework)
-- [Vercel Edge functions](https://vercel.com/features/edge-functions) (serverless functions)
+- [Vercel Edge functions](https://vercel.com/features/edge-functions) (streaming support!)
 - [OpenAI GPT-3 API](https://openai.com/api/) (`text-davinci-003`)
 - [Framer Motion](https://www.framer.com/motion/) (animations)
 - [Headless UI](https://headlessui.dev/) (React components using tailwind css)
@@ -16,6 +16,7 @@ This project generates a description of an house using [OpenAI GPT-3 API](https:
 - [React Hot Toast](https://react-hot-toast.com/) (toasts)
 - [Zod](https://zod.dev/) (schema validation)
 - [React Hook Form](https://react-hook-form.com/) (form management)
+- [Heroicons](https://heroicons.com/) (icons)
 - Multiple Layouts with [Next.js](https://nextjs.org/docs/basic-features/layouts)
 - SEO with [Next.js](https://nextjs.org/docs/api-reference/next/head)
 
