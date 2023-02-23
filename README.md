@@ -26,6 +26,8 @@ This project generates a description of an house using [OpenAI GPT-3 API](https:
 
 I'm using custom hooks for the generation / API call. However you could use a library like [react-query](https://react-query.tanstack.com/) (mutations) to trigger the API call and take advantage of all the features it provides out of the box (loading, retry, etc.)
 
+If you want to see the implementation without streaming, check [this commit](https://github.com/alexmarqs/real-estate-ai-app/commit/810d967354ff583882c66cc169048a164296283b).
+
 ## Running locally 🏃‍♂️
 
 Make sure that you have a `.env` file with your OpenAI API key (`OPENAI_API_KEY`)

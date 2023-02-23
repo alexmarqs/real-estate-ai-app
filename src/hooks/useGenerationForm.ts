@@ -1,4 +1,4 @@
-import { generateRealEstateDescription } from '@/lib/client/real-estate-api-client';
+import { generateRealEstateDescriptionStream } from '@/lib/client/real-estate-api-client';
 import { GenerateRequestParams } from '@/lib/server/types';
 import { showToast } from '@/utils/toasts';
 import { useCallback, useState } from 'react';
@@ -21,9 +21,20 @@ export const useGenerationForm = (props: UseGenerationFormProps = {}) => {
       setDescription(null);
 
       try {
-        const description = await generateRealEstateDescription(data);
+        const streamData = await generateRealEstateDescriptionStream(data);
 
-        setDescription(description);
+        if (streamData) {
+          const reader = streamData.getReader();
+          const decoder = new TextDecoder();
+          let done = false;
+
+          while (!done) {
+            const { value, done: doneReading } = await reader.read();
+            done = doneReading;
+            const chunkValue = decoder.decode(value);
+            setDescription((prev) => (prev ? prev : '') + chunkValue);
+          }
+        }
       } catch (error: any) {
         !props.options?.disableToastOnError &&
           showToast('Error when generating the description', 'error');

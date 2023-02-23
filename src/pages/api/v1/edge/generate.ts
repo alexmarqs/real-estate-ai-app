@@ -1,8 +1,7 @@
 import { APIError } from '@/lib/server/error';
-import { createCompletion } from '@/lib/server/openai-client';
+import { createCompletionWithStream } from '@/lib/server/openai-client';
 import { generationRequestSchema } from '@/lib/server/schemas';
 import { CreateCompletionParams, GenerateRequestParams } from '@/lib/server/types';
-import { createJsonEdgeResponse } from '@/lib/server/edge-utils';
 import type { NextRequest } from 'next/server';
 
 export const config = {
@@ -18,6 +17,7 @@ export default async function handler(req: NextRequest) {
     const requestBody = await req.json();
 
     const resultValidation = generationRequestSchema.safeParse(requestBody);
+
     if (!resultValidation.success) {
       throw new APIError(400, `Invalid request body: ${resultValidation.error.message}`);
     }
@@ -33,19 +33,20 @@ export default async function handler(req: NextRequest) {
       presence_penalty: 0,
       max_tokens: 200,
       n: 1,
+      stream: true, // stream the response
       user: 'real-estate-ai-api',
     };
 
-    const text = await createCompletion(payload);
+    const stream = await createCompletionWithStream(payload);
 
-    return createJsonEdgeResponse({ description: text.replace(/(\r\n|\n|\r)/gm, '') });
+    return new Response(stream);
   } catch (error: any) {
     console.log(error);
 
     if (error instanceof APIError) {
-      return createJsonEdgeResponse(error.message, error.status);
+      return new Response(error.message, { status: error.status });
     }
-    return createJsonEdgeResponse(error.message, 500);
+    return new Response('Internal server error', { status: 500 });
   }
 }
 

@@ -155,7 +155,7 @@ export const GenerationForm = ({ className }: GenerationFormProps) => {
           Generate now ⚡︎
         </button>
       </form>
-      {!isLoading && description && (
+      {description && (
         <div className="mt-8">
           <h2 className="text-3xl font-bold">Generated Description 🎉</h2>
           <p className="mt-4 text-left">{description}</p>

@@ -1,10 +1,16 @@
 import { OPENAI_API_KEY } from '@/utils/env-vars';
 import { APIError } from './error';
 import { CreateCompletionParams } from './types';
+import { createParser, ParsedEvent, ReconnectInterval } from 'eventsource-parser';
 
 const OPEN_AI_BASE_URL = 'https://api.openai.com/v1';
 
-export const createCompletion = async (payload: CreateCompletionParams) => {
+export const createCompletionWithStream = async (payload: CreateCompletionParams) => {
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+
+  let counter = 0;
+
   const res = await fetch(`${OPEN_AI_BASE_URL}/completions`, {
     method: 'POST',
     headers: {
@@ -18,7 +24,36 @@ export const createCompletion = async (payload: CreateCompletionParams) => {
     throw new APIError(res.status, res.statusText);
   }
 
-  const data = await res.json();
+  const stream = new ReadableStream({
+    async start(controller) {
+      function onParse(event: ParsedEvent | ReconnectInterval) {
+        if (event.type === 'event') {
+          const data = event.data;
+          if (data === '[DONE]') {
+            controller.close();
+            return;
+          }
+          try {
+            const json = JSON.parse(data);
+            const text = json.choices[0].text;
+            if (counter < 2 && (text.match(/\n/) || []).length) {
+              return;
+            }
+            const queue = encoder.encode(text);
+            controller.enqueue(queue);
+            counter++;
+          } catch (e) {
+            controller.error(e);
+          }
+        }
+      }
 
-  return data?.choices[0]?.text;
+      const parser = createParser(onParse);
+      for await (const chunk of res.body as any) {
+        parser.feed(decoder.decode(chunk));
+      }
+    },
+  });
+
+  return stream;
 };
