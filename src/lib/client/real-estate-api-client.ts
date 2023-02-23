@@ -10,6 +10,9 @@ const axiosInstance = axios.create({
 });
 
 export const generateRealEstateDescription = async (payload: GenerateRequestParams) => {
-  const res = await axiosInstance.post<string>('/edge/generate', payload);
-  return res.data;
+  const res = await axiosInstance.post<{ description: string }>(
+    '/edge/generate',
+    payload
+  );
+  return res.data.description;
 };

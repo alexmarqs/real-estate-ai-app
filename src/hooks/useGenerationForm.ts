@@ -3,40 +3,43 @@ import { GenerateRequestParams } from '@/lib/server/types';
 import { showToast } from '@/utils/toasts';
 import { useCallback, useState } from 'react';
 
-export type UseGenerateDescription = {
+export type UseGenerationFormProps = {
   options?: {
-    onError?: (error: Error) => void;
-    disableToast?: boolean;
+    disableToastOnError?: boolean;
   };
 };
 
-export const useGenerateDescription = ({ options }: UseGenerateDescription) => {
+export const useGenerationForm = (props: UseGenerationFormProps = {}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [description, setDescription] = useState<string | null>(null);
 
-  const generateDescription = useCallback(
+  const generate = useCallback(
     async (data: GenerateRequestParams) => {
       setIsLoading(true);
+      setError(null);
+      setDescription(null);
 
       try {
         const description = await generateRealEstateDescription(data);
 
-        return description;
+        setDescription(description);
       } catch (error: any) {
-        !options?.disableToast &&
+        !props.options?.disableToastOnError &&
           showToast('Error when generating the description', 'error');
 
-        if (options?.onError) {
-          options.onError(error);
-        }
+        setError(error);
       } finally {
         setIsLoading(false);
       }
     },
-    [options]
+    [props.options?.disableToastOnError]
   );
 
   return {
-    generateDescription,
-    isGenerating: isLoading,
+    generate,
+    isLoading,
+    error,
+    description,
   };
 };

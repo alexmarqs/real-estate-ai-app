@@ -9,13 +9,14 @@ This project generates a description of an house using [OpenAI GPT-3 API](https:
 - [Vercel Edge functions](https://vercel.com/features/edge-functions) (serverless functions)
 - [OpenAI GPT-3 API](https://openai.com/api/) (`text-davinci-003`)
 - [Framer Motion](https://www.framer.com/motion/) (animations)
-- [Heroicons](https://heroicons.com/) (SVG icons)
-- [Headless UI](https://headlessui.dev/) (React components)
+- [Headless UI](https://headlessui.dev/) (React components using tailwind css)
 - [ESLint](https://eslint.org/) (linter)
 - [Prettier](https://prettier.io/) (code formatter)
 - [Draw.io](https://draw.io/) (for diagrams)
 - [React Hot Toast](https://react-hot-toast.com/) (toasts)
 - [Zod](https://zod.dev/) (schema validation)
+- Multiple Layouts with [Next.js](https://nextjs.org/docs/basic-features/layouts)
+- SEO with [Next.js](https://nextjs.org/docs/api-reference/next/head)
 
 ## Architecture 🏗
 
@@ -23,9 +24,7 @@ This project generates a description of an house using [OpenAI GPT-3 API](https:
 
 ## Technical Notes 📝
 
-I'm using custom hooks for the generation / API call. However you could use a library like [react-query](https://react-query.tanstack.com/) (`mutateAsync`) to trigger the API call and take advantage of all the features it provides out of the box.
-
-Regarding the form, I'm just using `useRef` to get the values (instead of `useState` for performance reasons and to avoid re-renders). However you could use a library like [react-hook-form](https://react-hook-form.com/) to handle the form state and validation or just use the native `HTMLFormElement` API.
+I'm using custom hooks for the generation / API call. However you could use a library like [react-query](https://react-query.tanstack.com/) (mutations) to trigger the API call and take advantage of all the features it provides out of the box (loading, retry, etc.)
 
 ## Running locally 🏃‍♂️
 
