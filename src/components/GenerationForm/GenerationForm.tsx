@@ -1,7 +1,7 @@
 import { useGenerationForm } from '@/hooks/useGenerationForm';
 import { cls } from '@/utils/classes';
 import { AUDIENCES, MOODS, PROPERTY_TYPES } from '@/utils/options';
-
+import { AnimatePresence, motion } from 'framer-motion';
 import { Controller, useForm } from 'react-hook-form';
 import { CircleBadge } from '../CircleBadge';
 import { Dropdown } from '../Dropdown';
@@ -148,12 +148,20 @@ export const GenerationForm = ({ className }: GenerationFormProps) => {
           Generate now ⚡︎
         </button>
       </form>
-      {description && (
-        <div className="mt-8">
-          <h2 className="text-3xl font-bold">Generated Description 🎉</h2>
-          <Card description={description} />
-        </div>
-      )}
+      <AnimatePresence>
+        {description ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="mt-8"
+          >
+            <h2 className="text-3xl font-bold">Generated Description 🎉</h2>
+            <Card description={description} />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 };
