@@ -1,11 +1,12 @@
 import { useGenerationForm } from '@/hooks/useGenerationForm';
 import { cls } from '@/utils/classes';
 import { AUDIENCES, MOODS, PROPERTY_TYPES } from '@/utils/options';
-import { useEffect } from 'react';
+
 import { Controller, useForm } from 'react-hook-form';
 import { CircleBadge } from '../CircleBadge';
 import { Dropdown } from '../Dropdown';
 import { Icon } from '../Svgs';
+import { Card } from '../Card';
 
 type GenerationFormProps = {
   className?: string;
@@ -46,14 +47,6 @@ export const GenerationForm = ({ className }: GenerationFormProps) => {
       mood: data.mood as any,
     });
   };
-
-  useEffect(() => {
-    if (!description) {
-      return;
-    }
-    // scroll to the bottom of the page
-    window.scrollTo(0, document.body.scrollHeight);
-  }, [description]);
 
   return (
     <div className={cls('max-w-2xl w-full', className)}>
@@ -158,7 +151,7 @@ export const GenerationForm = ({ className }: GenerationFormProps) => {
       {description && (
         <div className="mt-8">
           <h2 className="text-3xl font-bold">Generated Description 🎉</h2>
-          <p className="mt-4 text-left">{description}</p>
+          <Card description={description} />
         </div>
       )}
     </div>
