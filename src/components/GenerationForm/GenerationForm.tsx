@@ -7,6 +7,7 @@ import { CircleBadge } from '../CircleBadge';
 import { Dropdown } from '../Dropdown';
 import { Icon } from '../Svgs';
 import { Card } from '../Card';
+import { useRef } from 'react';
 
 type GenerationFormProps = {
   className?: string;
@@ -37,7 +38,19 @@ export const GenerationForm = ({ className }: GenerationFormProps) => {
     defaultValues: INITIAL_FORM_DATA,
   });
 
-  const { description, isLoading, generate } = useGenerationForm();
+  const resultsRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToResults = () => {
+    if (resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const { description, isLoading, generate } = useGenerationForm({
+    options: {
+      onSuccess: scrollToResults,
+    },
+  });
 
   const onSubmit = (data: FormData) => {
     generate({
@@ -150,16 +163,19 @@ export const GenerationForm = ({ className }: GenerationFormProps) => {
       </form>
       <AnimatePresence>
         {description ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.3 }}
-            className="mt-8"
-          >
-            <h2 className="text-3xl font-bold">Generated Description 🎉</h2>
-            <Card description={description} />
-          </motion.div>
+          <>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="mt-8"
+            >
+              <h2 className="text-3xl font-bold">Generated Description 🎉</h2>
+              <Card description={description} />
+            </motion.div>
+            <div ref={resultsRef} />
+          </>
         ) : null}
       </AnimatePresence>
     </div>

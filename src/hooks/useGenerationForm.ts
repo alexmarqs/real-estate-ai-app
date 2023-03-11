@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react';
 export type UseGenerationFormProps = {
   options?: {
     disableToastOnError?: boolean;
+    onSuccess?: () => void;
   };
 };
 
@@ -33,6 +34,10 @@ export const useGenerationForm = (props: UseGenerationFormProps = {}) => {
             done = doneReading;
             const chunkValue = decoder.decode(value);
             setDescription((prev) => (prev ? prev : '') + chunkValue);
+          }
+
+          if (props.options?.onSuccess) {
+            props.options.onSuccess();
           }
         }
       } catch (error: any) {

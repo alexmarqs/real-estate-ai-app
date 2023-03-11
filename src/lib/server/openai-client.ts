@@ -3,7 +3,7 @@ import { APIError } from './error';
 import { CreateCompletionParams } from './types';
 import { createParser, ParsedEvent, ReconnectInterval } from 'eventsource-parser';
 
-const OPEN_AI_BASE_URL = 'https://api.openai.com/v1';
+const OPEN_AI_BASE_URL = 'https://api.openai.com/v1/chat';
 
 export const createCompletionWithStream = async (payload: CreateCompletionParams) => {
   const encoder = new TextEncoder();
@@ -35,7 +35,7 @@ export const createCompletionWithStream = async (payload: CreateCompletionParams
           }
           try {
             const json = JSON.parse(data);
-            const text = json.choices[0].text;
+            const text = json.choices[0].delta?.content || '';
             if (counter < 2 && (text.match(/\n/) || []).length) {
               return;
             }
