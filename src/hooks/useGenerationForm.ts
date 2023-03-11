@@ -49,7 +49,7 @@ export const useGenerationForm = (props: UseGenerationFormProps = {}) => {
         setIsLoading(false);
       }
     },
-    [props.options?.disableToastOnError]
+    [props.options]
   );
 
   return {
